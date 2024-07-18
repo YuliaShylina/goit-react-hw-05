@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+  height: 50px;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: aliceblue;
+}
+
+.link {
+  color: rgb(85, 81, 81);
+  font-size: 20px;
+}
+
+.active {
+  color: red;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

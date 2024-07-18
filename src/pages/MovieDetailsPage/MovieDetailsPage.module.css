@@ -1,0 +1,71 @@
+.container {
+  padding: 20px;
+  position: relative;
+  margin-top: 64px;
+}
+
+.form {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.btn {
+  margin-left: 10px;
+  background-color: #6c63ff;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resultsContainer {
+  margin-top: 20px;
+}
+
+.addInfoContainer {
+  padding: 30px 10px 20px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addInfoTxt {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.linkDetail {
+  margin-left: 40px;
+  font-size: 17px;
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.linkDetail:hover,
+.linkDetail:active {
+  color: darkred;
+  text-decoration: underline;
+}
+
+.goBackBtn {
+  position: absolute;
+  top: 72px;
+  left: 20px;
+  background-color: #6c63ff;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1000;
+}

@@ -1,0 +1,14 @@
+.notFoundTxt {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 20px;
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.active,
+.link:hover {
+  text-decoration: underline;
+  color: red;
+}
