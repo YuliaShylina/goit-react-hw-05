@@ -1,4 +1,4 @@
-import css from "./HomePages.module.css";
+import css from "./HomePage.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { getMovies } from "../../movies-api";
