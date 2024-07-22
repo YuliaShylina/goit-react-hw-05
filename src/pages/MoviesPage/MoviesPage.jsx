@@ -1,141 +1,52 @@
-// import { useState, useEffect } from "react";
-// import { useSearchParams, useLocation } from "react-router-dom";
-// import Loader from "../../components/Loader/Loader";
-// import MovieList from "../../components/MovieList/MovieList";
-// import { getMovieByQuery } from "../../movies-api";
-// import toast, { Toaster } from "react-hot-toast";
-// import css from "./MoviesPage.module.css";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import MovieList from "../../components/MovieList/MovieList";
+import Loader from "../../components/Loader/Loader";
+import css from "./MoviesPage.module.css";
+import { getMovieByQuery } from "../../movies-api.js";
 
 // export default function MoviesPage() {
+//   const [movies, setMovies] = useState([]);
+//   const [query, setQuery] = useState("");
 //   const [searchParams, setSearchParams] = useSearchParams();
-//   const initialNameFilmFilter = searchParams.get("name") ?? "";
-//   const [nameFilmFilter, setNameFilmFilter] = useState(initialNameFilmFilter);
-//   const [filteredMovies, setFilteredMovies] = useState(
-//     initialNameFilmFilter ? [] : null
-//   );
 //   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(false);
-//   const location = useLocation();
+//   const [showNotFound, setShowNotFound] = useState(false);
 
 //   useEffect(() => {
-//     if (location.pathname === "/movies") {
-//       setFilteredMovies(null);
-//       setNameFilmFilter(""); // Очищення поля при переході на сторінку пошуку
+//     const queryParam = searchParams.get("query");
+//     if (queryParam) {
+//       setQuery(queryParam);
+//       handleSearch(queryParam);
 //     }
-//   }, [location.pathname]);
+//   }, [searchParams]);
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
+//   const handleInputChange = (e) => {
+//     setQuery(e.target.value);
+//     setShowNotFound(false);
+//   };
 
-//     if (!nameFilmFilter.trim()) {
-//       toast.error("The search field is required.");
-//       return;
-//     }
-
-//     setSearchParams({ name: nameFilmFilter });
+//   const handleSearch = async (searchQuery) => {
+//     if (!searchQuery.trim()) return;
 
 //     try {
 //       setLoading(true);
-//       setError(false);
-//       const data = await getMovieByQuery(nameFilmFilter);
-//       setFilteredMovies(data);
+//       const data = await getMovieByQuery(searchQuery);
+//       setMovies(data);
+//       setShowNotFound(data.length === 0);
 //     } catch (error) {
 //       console.error("Error fetching movies:", error);
-//       setError(true);
 //     } finally {
 //       setLoading(false);
 //     }
-
-//     setNameFilmFilter(""); // Очищення поля пошуку після натискання кнопки
 //   };
 
-//   return (
-//     <div className={css.container}>
-//       <form onSubmit={handleSubmit} className={css.form}>
-//         <input
-//           type="text"
-//           value={nameFilmFilter}
-//           onChange={(e) => setNameFilmFilter(e.target.value)}
-//           placeholder="Search for movies"
-//           required
-//         />
-//         <button type="submit" className={css.btn}>
-//           Search
-//         </button>
-//       </form>
-//       {loading && <Loader />}
-//       {error && (
-//         <p className={css.errorTxt}>
-//           Something went wrong. Please try again later.
-//         </p>
-//       )}
-//       {!loading && !error && filteredMovies !== null && (
-//         <div className={css.resultsContainer}>
-//           {filteredMovies.length > 0 ? (
-//             <MovieList movies={filteredMovies} />
-//           ) : (
-//             <p className={css.notFound}>No movies found</p>
-//           )}
-//         </div>
-//       )}
-//       <Toaster />
-//     </div>
-//   );
-// }
-// import { useState, useEffect } from "react";
-// import { useSearchParams, useLocation } from "react-router-dom";
-// import Loader from "../../components/Loader/Loader";
-// import MovieList from "../../components/MovieList/MovieList";
-// import { getMovieByQuery } from "../../movies-api";
-// import toast, { Toaster } from "react-hot-toast";
-// import css from "./MoviesPage.module.css";
-
-// export default function MoviesPage() {
-//   const [searchParams, setSearchParams] = useSearchParams();
-//   const initialNameFilmFilter = searchParams.get("name") ?? "";
-//   const [nameFilmFilter, setNameFilmFilter] = useState(initialNameFilmFilter);
-//   const [filteredMovies, setFilteredMovies] = useState(
-//     initialNameFilmFilter ? [] : null
-//   );
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(false);
-//   const location = useLocation();
-
-//   useEffect(() => {
-//     if (location.pathname === "/movies") {
-//       setNameFilmFilter(""); // Очищення поля при переході на сторінку пошуку
-//     }
-//   }, [location.pathname]);
-
-//   useEffect(() => {
-//     const fetchMovies = async () => {
-//       if (!nameFilmFilter.trim()) return;
-
-//       try {
-//         setLoading(true);
-//         setError(false);
-//         const data = await getMovieByQuery(nameFilmFilter);
-//         setFilteredMovies(data);
-//       } catch (error) {
-//         console.error("Error fetching movies:", error);
-//         setError(true);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchMovies();
-//   }, [nameFilmFilter]);
-
-//   const handleSubmit = (e) => {
+//   const handleSubmit = async (e) => {
 //     e.preventDefault();
+//     if (!query.trim()) return;
 
-//     if (!nameFilmFilter.trim()) {
-//       toast.error("The search field is required.");
-//       return;
-//     }
-
-//     setSearchParams({ name: nameFilmFilter });
+//     await setSearchParams({ query });
+//     await handleSearch(query);
+//     setQuery("");
 //   };
 
 //   return (
@@ -143,63 +54,40 @@
 //       <form onSubmit={handleSubmit} className={css.form}>
 //         <input
 //           type="text"
-//           value={nameFilmFilter}
-//           onChange={(e) => setNameFilmFilter(e.target.value)}
+//           value={query}
+//           onChange={handleInputChange}
 //           placeholder="Search for movies"
-//           required
 //         />
 //         <button type="submit" className={css.btn}>
 //           Search
 //         </button>
 //       </form>
 //       {loading && <Loader />}
-//       {error && (
-//         <p className={css.errorTxt}>
-//           Something went wrong. Please try again later.
-//         </p>
+//       {!loading && movies.length > 0 && <MovieList movies={movies} />}
+//       {!loading && showNotFound && (
+//         <p className={css.notFound}>No movies found</p>
 //       )}
-//       {!loading && !error && filteredMovies !== null && (
-//         <div className={css.resultsContainer}>
-//           {filteredMovies.length > 0 ? (
-//             <MovieList movies={filteredMovies} />
-//           ) : (
-//             <p className={css.notFound}>No movies found</p>
-//           )}
-//         </div>
-//       )}
-//       <Toaster />
 //     </div>
 //   );
 // }
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import Loader from "../../components/Loader/Loader";
-import MovieList from "../../components/MovieList/MovieList";
-import { getMovieByQuery } from "../../movies-api";
-import css from "./MoviesPage.module.css";
 
 export default function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialNameFilmFilter = searchParams.get("name") ?? "";
-  const [nameFilmFilter, setNameFilmFilter] = useState(initialNameFilmFilter);
+
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const initialNameFilmFilter = searchParams.get("name") ?? "";
+
   useEffect(() => {
+    if (!initialNameFilmFilter) return;
     async function fetchFilteredMovies() {
       try {
         setLoading(true);
         setError(false);
 
-        if (!nameFilmFilter.trim()) {
-          setFilteredMovies([]);
-          setLoading(false);
-          return;
-        }
-
-        const data = await getMovieByQuery(nameFilmFilter);
+        const data = await getMovieByQuery(initialNameFilmFilter);
         setFilteredMovies(data);
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -210,43 +98,19 @@ export default function MoviesPage() {
     }
 
     fetchFilteredMovies();
-  }, [nameFilmFilter]);
+  }, [initialNameFilmFilter]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      setSearchParams({ name: nameFilmFilter });
-      setLoading(true);
-      setError(false);
-
-      const data = await getMovieByQuery(nameFilmFilter);
-      setFilteredMovies(data);
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
+    setSearchParams({ name: e.target.elements.search.value.trim() });
   };
-
-  const handleChange = (e) => {
-    setNameFilmFilter(e.target.value);
-  };
-
-  useEffect(() => {
-    if (!searchParams.has("name")) {
-      setNameFilmFilter("");
-    }
-  }, [searchParams]);
 
   return (
     <div className={css.container}>
       <form onSubmit={handleSubmit} className={css.form}>
         <input
           type="text"
-          value={nameFilmFilter}
-          onChange={handleChange}
+          name="search"
           placeholder="Search for movies"
           required
           className={css.input}
@@ -266,7 +130,8 @@ export default function MoviesPage() {
           <MovieList movies={filteredMovies} />
         </div>
       )}
-      {!loading && !error && filteredMovies.length === 0 && nameFilmFilter && (
+
+      {!loading && !error && filteredMovies.length === 0 && (
         <p className={css.notFound}>No movies found</p>
       )}
     </div>
